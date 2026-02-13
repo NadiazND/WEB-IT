@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PT. Teknologi Maju — Final Build</title>
+  <title>PT. Teknologi Maju — Responsive Final</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -55,6 +55,7 @@
       scroll-behavior:smooth;
       background: linear-gradient(180deg,var(--bg),var(--panel));
       color:var(--text);
+      -webkit-font-smoothing:antialiased;
     }
     a{color:inherit;text-decoration:none}
 
@@ -117,16 +118,45 @@
     .hero-left{ max-width:60%; }
     .hero .muted { color: rgba(255,255,255,0.9) !important; }
 
-    /* Portfolio & Team */
+    /* Portfolio */
     .portfolio-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:12px; }
     .portfolio-item{ border-radius:10px; overflow:hidden; background:var(--card-bg); border:1px solid var(--card-border); display:flex; flex-direction:column; }
     .portfolio-item img{ width:100%; height:160px; object-fit:cover; display:block; }
     .portfolio-item .meta{ padding:12px; }
 
-    .team-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px; }
-    .team-card{ display:flex; gap:12px; align-items:center; padding:12px; border-radius:10px; background:var(--card-bg); border:1px solid var(--card-border); }
-    .avatar{ width:72px; height:72px; border-radius:10px; overflow:hidden; flex-shrink:0; }
-    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+    /* Team: image on top, text below (desktop grid), responsive single column on mobile */
+    .team-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px; align-items:start; }
+    .team-card{
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      border-radius:12px;
+      overflow:hidden;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .team-card .photo{
+      width:100%;
+      aspect-ratio: 4 / 3;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.06));
+      display:block;
+    }
+    .team-card .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition: transform 420ms ease;
+    }
+    .team-card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.28); }
+    .team-card:hover .photo img{ transform: scale(1.03); }
+
+    .team-card .info{ padding:12px 14px; display:flex; flex-direction:column; gap:6px; text-align:left; }
+    .team-card .info h3{ margin:0; font-size:16px; line-height:1.2; }
+    .team-card .info .role{ font-weight:600; color:var(--accent); font-size:13px; }
+    .team-card .info .bio{ margin:0; color:var(--muted); font-size:13px; line-height:1.35; }
 
     /* Forms */
     input, textarea, select {
@@ -144,7 +174,7 @@
       border: 1px solid var(--input-border-light);
     }
 
-    /* Responsive scaling for mobile */
+    /* Responsive scaling for mobile: single column team, larger touch targets, adjusted spacing */
     @media (max-width:1100px){
       .portfolio-grid{ grid-template-columns:repeat(2,1fr); }
       .team-grid{ grid-template-columns:repeat(2,1fr); }
@@ -164,7 +194,11 @@
       .portfolio-item img{ height:200px; }
       .section-container{ padding:18px 14px; }
       section{ padding:14px; }
-      .team-card{ padding:14px; }
+      .team-card{ padding:0; }
+      .team-grid{ grid-template-columns: 1fr; gap:14px; } /* single column stack */
+      .team-card .photo{ aspect-ratio: 16 / 9; } /* slightly wider on mobile */
+      .team-card .info h3{ font-size:18px; }
+      .team-card .info .bio{ font-size:14px; }
     }
 
     /* helpers */
@@ -376,38 +410,41 @@
             <p class="muted">Tim lintas-disiplin yang menggabungkan pengalaman bisnis, arsitektur, data, dan delivery untuk menghasilkan hasil nyata.</p>
 
             <div class="team-grid">
-              <div class="team-card">
-                <div class="avatar">
-                  <!-- Arief Santoso: user-provided URL -->
+              <!-- Member 1 -->
+              <article class="team-card" role="listitem">
+                <div class="photo" aria-hidden="true">
                   <img src="https://tshirtbar.id/wp-content/uploads/2022/09/outfit-kantor-pria.jpg" alt="Arief Santoso">
                 </div>
-                <div>
-                  <h3>Arief Santoso — CEO</h3>
-                  <div class="muted">20+ tahun memimpin transformasi digital di sektor finansial dan ritel. Keahlian: strategi bisnis, kemitraan, dan go-to-market.</div>
+                <div class="info">
+                  <h3>Arief Santoso</h3>
+                  <div class="role">CEO</div>
+                  <p class="bio">20+ tahun memimpin transformasi digital di sektor finansial dan ritel. Keahlian: strategi bisnis, kemitraan, dan go-to-market.</p>
                 </div>
-              </div>
+              </article>
 
-              <div class="team-card">
-                <div class="avatar">
-                  <!-- Rina Putri: user-provided URL -->
+              <!-- Member 2 -->
+              <article class="team-card" role="listitem">
+                <div class="photo" aria-hidden="true">
                   <img src="https://tse1.mm.bing.net/th/id/OIP.iFlx8-4iEGgNk3wuS2hVjAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Rina Putri">
                 </div>
-                <div>
-                  <h3>Rina Putri — CTO</h3>
-                  <div class="muted">Arsitek cloud & data platform. Pengalaman membangun platform data skala enterprise dan tim engineering high-performing.</div>
+                <div class="info">
+                  <h3>Rina Putri</h3>
+                  <div class="role">CTO</div>
+                  <p class="bio">Arsitek cloud & data platform. Pengalaman membangun platform data skala enterprise dan tim engineering high-performing.</p>
                 </div>
-              </div>
+              </article>
 
-              <div class="team-card">
-                <div class="avatar">
-                  <!-- Bayu Pratama: user-provided URL -->
+              <!-- Member 3 -->
+              <article class="team-card" role="listitem">
+                <div class="photo" aria-hidden="true">
                   <img src="https://tse2.mm.bing.net/th/id/OIP.fpwtKDB18cxJMdfNxmfQkgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bayu Pratama">
                 </div>
-                <div>
-                  <h3>Bayu Pratama — Head of Delivery</h3>
-                  <div class="muted">Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery.</div>
+                <div class="info">
+                  <h3>Bayu Pratama</h3>
+                  <div class="role">Head of Delivery</div>
+                  <p class="bio">Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery.</p>
                 </div>
-              </div>
+              </article>
             </div>
           </section>
         </div>
