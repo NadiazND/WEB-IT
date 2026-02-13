@@ -3,12 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PT. Teknologi Maju — Responsive Mobile UI & Mobile Topbar Nav</title>
+  <title>PT. Teknologi Maju — Final Build</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* -------------------------
-       Design tokens
-       ------------------------- */
     :root{
       --bg:#071428;
       --panel:#071a2a;
@@ -21,15 +18,19 @@
       --sidebar-w-open:260px;
       --topbar-h:64px;
       --gap:18px;
-      --card-bg: rgba(255,255,255,0.04);
-      --card-border: rgba(255,255,255,0.03);
       --transition:220ms cubic-bezier(.2,.9,.3,1);
       --fade-duration:500ms;
       --max-width:1100px;
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.03);
       --input-bg-dark: rgba(0,0,0,0.45);
-      --input-text-dark:#EAF6F8;
+      --input-border-dark: rgba(255,255,255,0.08);
+      --input-text-dark: #EAF6F8;
+      --placeholder-dark: rgba(234,246,248,0.6);
       --input-bg-light: rgba(255,255,255,0.92);
-      --input-text-light:#042028;
+      --input-border-light: rgba(0,0,0,0.08);
+      --input-text-light: #042028;
+      --placeholder-light: rgba(4,32,40,0.45);
     }
 
     html.light-theme{
@@ -44,32 +45,32 @@
       --card-border: rgba(0,0,0,0.06);
     }
 
-    /* -------------------------
-       Base & transitions
-       ------------------------- */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),var(--panel));color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.45;scroll-behavior:smooth}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      scroll-behavior:smooth;
+      background: linear-gradient(180deg,var(--bg),var(--panel));
+      color:var(--text);
+    }
     a{color:inherit;text-decoration:none}
 
-    /* Global fade class used only during theme toggle to synchronize transitions */
+    /* synchronized fade during theme toggle */
     html.theme-fade, html.theme-fade * {
       transition: color var(--fade-duration) ease, background-color var(--fade-duration) ease, border-color var(--fade-duration) ease, box-shadow var(--fade-duration) ease, background var(--fade-duration) ease;
     }
-
-    /* Also ensure key elements have default transitions so toggles feel smooth */
     body, .topbar, section, .card, .portfolio-item, .team-card, input, textarea, select, .btn {
       transition: color var(--fade-duration) ease, background-color var(--fade-duration) ease, border-color var(--fade-duration) ease, box-shadow var(--fade-duration) ease;
     }
 
-    /* -------------------------
-       Layout
-       ------------------------- */
+    /* Layout */
     .app{ display:grid; grid-template-columns: var(--sidebar-w) 1fr; min-height:100vh; transition: grid-template-columns var(--transition); }
     .app.sidebar-open{ grid-template-columns: var(--sidebar-w-open) 1fr; }
 
-    /* -------------------------
-       Sidebar (desktop)
-       ------------------------- */
+    /* Sidebar (desktop) */
     .sidebar{ position:sticky; top:0; height:100vh; padding:18px 12px; background:var(--panel); border-right:1px solid var(--card-border); display:flex; flex-direction:column; gap:var(--gap); align-items:center; z-index:90; }
     .brand-compact{ width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#042028;font-weight:800;cursor:pointer }
 
@@ -78,23 +79,15 @@
     .nav-item .label{ display:none; }
     .app.sidebar-open .nav-item .label{ display:inline-block; }
 
-    /* -------------------------
-       Topbar (desktop + mobile)
-       - On mobile the topbar contains the hamburger and a compact nav button that opens the top dropdown nav
-       ------------------------- */
+    .nav-item.temp-highlight{ background: rgba(255,255,255,0.14); color: var(--text); animation: highlightFade 0.5s forwards; }
+    @keyframes highlightFade{ 0%{opacity:1} 70%{opacity:1} 100%{opacity:0;background:transparent;color:var(--muted)} }
+
+    .sidebar-footer{ margin-top:auto; width:100%; display:flex; gap:8px; align-items:center; justify-content:center; }
+    .toggle-sidebar{ width:44px;height:44px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);cursor:pointer }
+
+    /* Topbar */
     .topbar{
-      position:sticky;
-      top:0;
-      z-index:220;
-      height:var(--topbar-h);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:8px 14px;
-      background:var(--topbar-bg);
-      border-bottom:1px solid var(--card-border);
-      color:var(--text);
-      gap:12px;
+      position:sticky; top:0; z-index:220; height:var(--topbar-h); display:flex; align-items:center; justify-content:space-between; padding:8px 14px; background:var(--topbar-bg); border-bottom:1px solid var(--card-border); color:var(--text); gap:12px;
     }
     .topbar .left{ display:flex; align-items:center; gap:12px; min-width:0; }
     .brand-title{ font-weight:700; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -103,28 +96,16 @@
     .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; border-radius:10px; border:1px solid var(--card-border); background:transparent; color:var(--text); cursor:pointer; font-weight:600; }
     .btn.icon { width:44px; height:44px; padding:0; border-radius:10px; }
 
-    /* Mobile topbar nav dropdown (full width under topbar) */
+    /* Mobile topnav (under topbar) */
     .mobile-topnav {
-      position:fixed;
-      left:0;
-      right:0;
-      top:var(--topbar-h);
-      z-index:210;
-      background:var(--panel);
-      border-bottom:1px solid var(--card-border);
-      transform:translateY(-12px);
-      opacity:0;
-      pointer-events:none;
-      transition: transform var(--transition), opacity var(--transition);
-      box-shadow: 0 8px 30px rgba(2,6,23,0.35);
+      position:fixed; left:0; right:0; top:var(--topbar-h); z-index:210; background:var(--panel); border-bottom:1px solid var(--card-border);
+      transform:translateY(-12px); opacity:0; pointer-events:none; transition: transform var(--transition), opacity var(--transition); box-shadow: 0 8px 30px rgba(2,6,23,0.35);
     }
     .mobile-topnav.open { transform:translateY(0); opacity:1; pointer-events:auto; }
-    .mobile-topnav .nav-row { display:flex; gap:6px; padding:10px; overflow:auto; -webkit-overflow-scrolling:touch; }
+    .mobile-topnav .nav-row { display:flex; gap:8px; padding:10px; overflow:auto; -webkit-overflow-scrolling:touch; }
     .mobile-topnav .nav-row button { flex:0 0 auto; white-space:nowrap; padding:10px 14px; border-radius:10px; background:transparent; border:1px solid var(--card-border); color:var(--text); }
 
-    /* -------------------------
-       Content / Hero / Sections
-       ------------------------- */
+    /* Hero & content */
     .section-container{ max-width:var(--max-width); margin:0 auto; padding:22px 18px; }
     section{ margin-top:16px; padding:16px; border-radius:12px; background:var(--card-bg); border:1px solid var(--card-border); }
     h1,h2,h3{ margin:0 0 8px 0; }
@@ -136,9 +117,7 @@
     .hero-left{ max-width:60%; }
     .hero .muted { color: rgba(255,255,255,0.9) !important; }
 
-    /* -------------------------
-       Portfolio & Team
-       ------------------------- */
+    /* Portfolio & Team */
     .portfolio-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:12px; }
     .portfolio-item{ border-radius:10px; overflow:hidden; background:var(--card-bg); border:1px solid var(--card-border); display:flex; flex-direction:column; }
     .portfolio-item img{ width:100%; height:160px; object-fit:cover; display:block; }
@@ -153,93 +132,52 @@
     input, textarea, select {
       background: var(--input-bg-dark);
       color: var(--input-text-dark);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid var(--input-border-dark);
       padding: 12px;
       border-radius: 10px;
       outline: none;
     }
+    input::placeholder, textarea::placeholder { color: var(--placeholder-dark); }
     html.light-theme input, html.light-theme textarea, html.light-theme select {
       background: var(--input-bg-light);
       color: var(--input-text-light);
-      border: 1px solid rgba(0,0,0,0.08);
+      border: 1px solid var(--input-border-light);
     }
 
-    /* -------------------------
-       Responsive adjustments for mobile scaling & touch targets
-       ------------------------- */
+    /* Responsive scaling for mobile */
     @media (max-width:1100px){
       .portfolio-grid{ grid-template-columns:repeat(2,1fr); }
       .team-grid{ grid-template-columns:repeat(2,1fr); }
       .hero-inner{ flex-direction:column; align-items:flex-start; gap:12px; }
     }
-
     @media (max-width:720px){
-      /* Increase base scale for mobile so UI isn't too small */
       html,body{ font-size:16px; } /* larger base font-size for mobile */
       :root{ --topbar-h:56px; }
-
       .app{ grid-template-columns:1fr; }
       .sidebar{ position:fixed; left:-100%; top:0; width:var(--sidebar-w-open); transform:translateX(-8px); z-index:100; }
       .app.sidebar-open .sidebar{ left:0; transform:translateX(0); }
-
       .topbar{ padding:10px 12px; height:var(--topbar-h); }
       .brand-title{ font-size:18px; }
-
-      /* Mobile topbar nav: show compact nav row under topbar */
       .mobile-topnav .nav-row { padding:10px 12px; gap:8px; }
       .mobile-topnav .nav-row button { padding:12px 16px; font-size:15px; }
-
-      /* Make touch targets larger */
       .btn, .btn.icon { padding:10px 14px; height:44px; min-width:44px; }
-
-      /* Make cards and images slightly taller for readability */
       .portfolio-item img{ height:200px; }
-      .portfolio-grid{ gap:14px; }
       .section-container{ padding:18px 14px; }
       section{ padding:14px; }
       .team-card{ padding:14px; }
     }
 
-    /* -------------------------
-       Small helpers
-       ------------------------- */
+    /* helpers */
     .cta{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:10px 14px; border-radius:10px; border:0; cursor:pointer; font-weight:700; }
     .btn-outline{ padding:10px 14px; border-radius:10px; border:1px solid var(--card-border); color:var(--text); background:transparent; cursor:pointer; }
     .muted{ color:var(--muted); }
     .toast{ position:fixed; right:20px; bottom:20px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:12px 16px; border-radius:12px; display:none; z-index:300 }
     .toast.show{ display:block }
 
-    /* Pastikan semua teks di hero tetap putih di semua tema */
-.hero,
-.hero * {
-  color: #ffffff !important;
-}
-
-/* Teks muted di hero tetap semi-opaque putih */
-.hero .muted,
-.hero p,
-.hero h1,
-.hero h2,
-.hero h3,
-.hero a {
-  color: rgba(255,255,255,0.92) !important;
-}
-
-/* Jika ada elemen form atau tombol di hero, pastikan kontras */
-.hero input,
-.hero textarea,
-.hero select,
-.hero .btn,
-.hero .cta {
-  color: #042028 !important; /* jika tombol berwarna terang, teks tombol gelap */
-}
-
-/* Jika ada aturan yang mengubah fill/stroke SVG di tema terang, override juga */
-.hero svg,
-.hero svg * {
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
-}
+    /* Ensure hero text stays white regardless of theme */
+    .hero, .hero * { color: #ffffff !important; }
+    .hero .muted, .hero p, .hero h1, .hero h2, .hero h3, .hero a { color: rgba(255,255,255,0.92) !important; }
+    .hero svg, .hero svg * { fill: #ffffff !important; stroke: #ffffff !important; }
   </style>
 </head>
 <body>
@@ -290,7 +228,7 @@
 
     <!-- Main column -->
     <div style="display:flex;flex-direction:column;min-height:100vh;">
-      <!-- Topbar (desktop + mobile) -->
+      <!-- Topbar -->
       <header class="topbar" role="banner">
         <div class="left">
           <button class="btn icon mobile-only" id="mobileMenuBtn" aria-label="Buka menu mobile">☰</button>
@@ -308,7 +246,7 @@
         </div>
       </header>
 
-      <!-- Mobile topbar nav (appears under topbar on mobile) -->
+      <!-- Mobile topnav -->
       <div class="mobile-topnav" id="mobileTopnav" aria-hidden="true">
         <div class="nav-row" role="navigation" aria-label="Navigasi cepat">
           <button data-target="home" class="mobile-nav-link">Beranda</button>
@@ -396,16 +334,17 @@
                 <div class="meta">
                   <h3>RetailX — Platform E‑Commerce</h3>
                   <p class="muted">Re-architect ke microservices dan event-driven order pipeline. Hasil: throughput 4x, latency puncak turun 60%, cost per order turun 28%.</p>
-                  <p class="muted"><strong>Teknologi:</strong> Kubernetes, Kafka, PostgreSQL, Prometheus.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> Kubernetes, Kafka, PostgreSQL, Prometheus.</p>
                 </div>
               </div>
 
               <div class="portfolio-item">
+                <!-- SehatCare EMR: user-provided URL -->
                 <img src="https://media.istockphoto.com/id/837561666/id/vektor/orang-dan-kesehatan.jpg?s=1024x1024&w=0&k=20&c=27nwn-UKQ-ZgHw1OJmai1pyUcGXnL_a9quJzOi84OoY=" alt="SehatCare EMR">
                 <div class="meta">
                   <h3>SehatCare — Sistem Manajemen Rumah Sakit</h3>
                   <p class="muted">Implementasi EMR berbasis FHIR, secure API gateway, dan audit trail. Hasil: proses klinis lebih efisien dan kepatuhan meningkat.</p>
-                  <p class="muted"><strong>Teknologi:</strong> FHIR, OAuth2, ELK stack.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> FHIR, OAuth2, ELK stack.</p>
                 </div>
               </div>
 
@@ -414,7 +353,7 @@
                 <div class="meta">
                   <h3>FinAnalytics — Platform Analitik Real-time</h3>
                   <p class="muted">Streaming pipeline dan model anomali. Hasil: deteksi anomali 10x lebih cepat, false positive turun 40%.</p>
-                  <p class="muted"><strong>Teknologi:</strong> Kafka, Flink, Redis, MLflow.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> Kafka, Flink, Redis, MLflow.</p>
                 </div>
               </div>
 
@@ -423,7 +362,7 @@
                 <div class="meta">
                   <h3>SmartCity — Platform Manajemen Kota Pintar</h3>
                   <p class="muted">Integrasi IoT dan pipeline real-time. Hasil: respons insiden lebih cepat dan optimasi resource publik.</p>
-                  <p class="muted"><strong>Teknologi:</strong> MQTT, TimescaleDB, Grafana.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> MQTT, TimescaleDB, Grafana.</p>
                 </div>
               </div>
             </div>
@@ -438,7 +377,10 @@
 
             <div class="team-grid">
               <div class="team-card">
-                <div class="avatar"><img src="https://tshirtbar.id/wp-content/uploads/2022/09/outfit-kantor-pria.jpg" alt="Arief Santoso"></div>
+                <div class="avatar">
+                  <!-- Arief Santoso: user-provided URL -->
+                  <img src="https://tshirtbar.id/wp-content/uploads/2022/09/outfit-kantor-pria.jpg" alt="Arief Santoso">
+                </div>
                 <div>
                   <h3>Arief Santoso — CEO</h3>
                   <div class="muted">20+ tahun memimpin transformasi digital di sektor finansial dan ritel. Keahlian: strategi bisnis, kemitraan, dan go-to-market.</div>
@@ -446,18 +388,24 @@
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://tse1.mm.bing.net/th/id/OIP.iFlx8-4iEGgNk3wuS2hVjAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Rina Putri"></div>
+                <div class="avatar">
+                  <!-- Rina Putri: user-provided URL -->
+                  <img src="https://tse1.mm.bing.net/th/id/OIP.iFlx8-4iEGgNk3wuS2hVjAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Rina Putri">
+                </div>
                 <div>
                   <h3>Rina Putri — CTO</h3>
-                  <div class="muted">Arsitek cloud & data platform. Pengalaman membangun platform data skala enterprise, governance, dan tim engineering high-performing.</div>
+                  <div class="muted">Arsitek cloud & data platform. Pengalaman membangun platform data skala enterprise dan tim engineering high-performing.</div>
                 </div>
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://tse2.mm.bing.net/th/id/OIP.fpwtKDB18cxJMdfNxmfQkgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bayu Pratama"></div>
+                <div class="avatar">
+                  <!-- Bayu Pratama: user-provided URL -->
+                  <img src="https://tse2.mm.bing.net/th/id/OIP.fpwtKDB18cxJMdfNxmfQkgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bayu Pratama">
+                </div>
                 <div>
                   <h3>Bayu Pratama — Head of Delivery</h3>
-                  <div class="muted">Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery dan operasional.</div>
+                  <div class="muted">Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery.</div>
                 </div>
               </div>
             </div>
@@ -536,7 +484,7 @@
     </div>
   </div>
 
-  <!-- Modal (simple) -->
+  <!-- Modal -->
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true" style="display:none">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);padding:18px;border-radius:12px;z-index:400;max-width:420px;width:90%;box-shadow:0 20px 60px rgba(2,6,23,0.6)">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -563,18 +511,19 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      /* Elements */
       const root = document.documentElement;
+      const OFFSET = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64;
+
+      // Elements
       const mobileMenuBtn = document.getElementById('mobileMenuBtn');
       const mobileTopnav = document.getElementById('mobileTopnav');
-      const mobileNavLinks = Array.from(document.querySelectorAll('.mobile-topnav .mobile-nav-link, .mobile-topnav button[data-target]'));
+      const mobileNavButtons = Array.from(document.querySelectorAll('.mobile-topnav .nav-row button'));
       const sidebarNavItems = Array.from(document.querySelectorAll('.nav-item'));
-      const OFFSET = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64;
+      const toggleSidebarBtn = document.getElementById('toggleSidebar');
+      const app = document.getElementById('app');
 
       const themeToggle = document.getElementById('themeToggle');
       const themeIcon = document.getElementById('themeIcon');
-
-      const mobileOnlyButtons = document.querySelectorAll('.mobile-only');
 
       const modalBackdrop = document.getElementById('modalBackdrop');
       const modalDialog = document.querySelector('.modal');
@@ -587,7 +536,7 @@
       const demoSubmit = document.getElementById('demoSubmit');
       const toast = document.getElementById('toast');
 
-      /* Theme helpers */
+      // Theme icon helper
       function setThemeIcon(isLight){
         if(!themeIcon) return;
         if(isLight){
@@ -597,8 +546,8 @@
         }
       }
 
+      // Apply theme with synchronized fade
       function applyTheme(light){
-        // synchronized fade: add helper class, toggle theme, remove after duration
         window.clearTimeout(window.__themeFadeTimeout);
         root.classList.add('theme-fade');
         requestAnimationFrame(() => {
@@ -626,7 +575,12 @@
         showToast(!isLight ? 'Tema terang diaktifkan' : 'Tema gelap diaktifkan', 900);
       });
 
-      /* Smooth scroll helper with topbar offset */
+      // Toggle sidebar (desktop)
+      toggleSidebarBtn?.addEventListener('click', () => {
+        app.classList.toggle('sidebar-open');
+      });
+
+      // Smooth scroll helper with offset
       function scrollToSection(id){
         const el = document.getElementById(id);
         if(!el) return;
@@ -636,7 +590,7 @@
         window.scrollTo({ top: target, behavior: 'smooth' });
       }
 
-      /* Mobile topnav open/close (topbar dropdown) */
+      // Mobile topnav toggle
       function toggleMobileTopnav(open){
         if(open){
           mobileTopnav.classList.add('open');
@@ -652,21 +606,16 @@
         toggleMobileTopnav(!isOpen);
       });
 
-      // Close mobile topnav when clicking outside or on scroll
+      // Close mobile topnav when clicking outside
       document.addEventListener('click', (e) => {
         if(!mobileTopnav.classList.contains('open')) return;
         const inside = e.target.closest('.mobile-topnav') || e.target.closest('#mobileMenuBtn');
         if(!inside) toggleMobileTopnav(false);
       });
 
-      // Ensure mobile topnav closes on orientation change or resize to desktop
-      window.addEventListener('resize', () => {
-        if(window.innerWidth > 720) toggleMobileTopnav(false);
-      });
-
-      /* Mobile nav links: attach scroll behavior */
-      document.querySelectorAll('.mobile-topnav .nav-row button, .mobile-topnav .nav-row .mobile-nav-link').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+      // Mobile nav buttons scroll
+      mobileNavButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
           const target = btn.getAttribute('data-target');
           if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
           else scrollToSection(target);
@@ -674,13 +623,12 @@
         });
       });
 
-      /* Sidebar (desktop) nav items: scroll behavior */
+      // Sidebar nav items (desktop) scroll + highlight
       sidebarNavItems.forEach(item => {
         item.addEventListener('click', () => {
           const target = item.getAttribute('data-target');
           if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
           else scrollToSection(target);
-          // temporary highlight
           item.classList.add('temp-highlight');
           setTimeout(()=> item.classList.remove('temp-highlight'), 600);
         });
@@ -689,7 +637,7 @@
         });
       });
 
-      /* Modal open/close */
+      // Modal open/close
       function openModal(){
         if(modalBackdrop && modalDialog){
           modalBackdrop.style.display = 'flex';
@@ -706,7 +654,7 @@
       if(demoCancel) demoCancel.addEventListener('click', closeModalFn);
       modalBackdrop?.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModalFn(); });
 
-      /* Forms simulation */
+      // Forms simulation
       contactForm?.addEventListener('submit', (e) => {
         e.preventDefault();
         sendBtn.disabled = true;
@@ -731,14 +679,14 @@
         }, 1200);
       });
 
-      /* Toast helper */
+      // Toast helper
       function showToast(message = 'Tindakan berhasil', duration = 3000){
         toast.textContent = message;
         toast.classList.add('show');
         setTimeout(()=> toast.classList.remove('show'), duration);
       }
 
-      /* Accessibility & keyboard */
+      // Accessibility: Escape closes mobile topnav & modal
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape'){
           if(mobileTopnav.classList.contains('open')) toggleMobileTopnav(false);
@@ -746,21 +694,18 @@
         }
       });
 
-      /* Image fallback */
+      // Image fallback
       document.querySelectorAll('img').forEach(img => {
         img.addEventListener('error', () => {
           img.src = 'https://via.placeholder.com/1200x800.png?text=Image+not+available';
         });
       });
 
-      /* Ensure mobile-only controls are hidden on desktop and vice versa (initial) */
+      // Hide mobile-only controls on desktop initial load
       function updateMobileControls(){
-        if(window.innerWidth <= 720){
-          mobileOnlyButtons.forEach(b => b.style.display = 'inline-flex');
-        } else {
-          mobileOnlyButtons.forEach(b => b.style.display = 'none');
-          toggleMobileTopnav(false);
-        }
+        const mobileOnly = document.querySelectorAll('.mobile-only');
+        if(window.innerWidth <= 720) mobileOnly.forEach(b => b.style.display = 'inline-flex');
+        else mobileOnly.forEach(b => b.style.display = 'none');
       }
       updateMobileControls();
       window.addEventListener('resize', updateMobileControls);
