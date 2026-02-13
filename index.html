@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PT. Teknologi Maju — Final Build</title>
+  <title>PT. Teknologi Maju — Tema Fade 0.5s</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -44,9 +44,16 @@
       --card-border: rgba(0,0,0,0.06);
     }
 
+    /* Base */
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),var(--panel));color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.45;scroll-behavior:smooth}
     a{color:inherit;text-decoration:none}
+
+    /* THEME FADE: when html has .theme-fade, apply 0.5s fade to key properties */
+    html.theme-fade,
+    html.theme-fade * {
+      transition: color 500ms ease, background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease, fill 500ms ease, stroke 500ms ease, background 500ms ease;
+    }
 
     /* Layout */
     .app{ display:grid; grid-template-columns: var(--sidebar-w) 1fr; min-height:100vh; transition: grid-template-columns var(--transition); }
@@ -62,7 +69,6 @@
     .nav-item .label{ display:none; }
     .app.sidebar-open .nav-item .label{ display:inline-block; }
 
-    /* Temporary highlight: duration 0.5s */
     .nav-item.temp-highlight{
       background: rgba(255,255,255,0.14);
       color: var(--text);
@@ -84,111 +90,57 @@
 
     /* Topbar */
     .topbar{ position:sticky; top:0; z-index:120; height:var(--topbar-h); display:flex; align-items:center; justify-content:space-between; padding:8px 12px; background:var(--topbar-bg); border-bottom:1px solid var(--card-border); color:var(--text); }
-    /* Force topbar text white regardless of theme (user request) */
-    .topbar, .topbar * { color: #ffffff !important; }
+    .topbar, .topbar * { color: var(--text); }
     .topbar .left{ display:flex; align-items:center; gap:12px; }
     .hamburger-btn{ width:44px;height:44px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer; }
     .theme-btn{ width:44px;height:44px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer; }
 
-    /* Mobile nav backdrop & nav (full-height, scrollable) */
+    /* Mobile nav */
     .mobile-nav-backdrop{ position:fixed; inset:0; display:none; align-items:flex-start; justify-content:flex-start; z-index:200; background: rgba(0,0,0,0.28); }
     .mobile-nav-backdrop.open{ display:flex; }
     .mobile-nav{
-      position:fixed;
-      left:0;
-      top:0;
-      bottom:0;
-      width: min(92%, 360px);
-      height:100vh;
-      max-height:100vh;
+      position:fixed; left:0; top:0; bottom:0; width: min(92%, 360px); height:100vh; max-height:100vh;
       padding: 18px 18px calc(env(safe-area-inset-bottom, 18px) + 18px) 18px;
-      background:var(--panel);
-      box-shadow: 30px 0 60px rgba(2,6,23,0.6);
-      transform: translateX(-110%);
-      transition: transform 320ms cubic-bezier(.2,.9,.3,1);
-      z-index:210;
-      overflow:auto;
-      -webkit-overflow-scrolling: touch;
-      will-change: transform;
+      background:var(--panel); box-shadow: 30px 0 60px rgba(2,6,23,0.6);
+      transform: translateX(-110%); transition: transform 320ms cubic-bezier(.2,.9,.3,1); z-index:210; overflow:auto; -webkit-overflow-scrolling: touch;
     }
     .mobile-nav-backdrop.open .mobile-nav{ transform: translateX(0); }
-
     .mobile-nav .mobile-close-wrap{ position:sticky; top:0; z-index:220; background:transparent; padding-bottom:8px; }
     .mobile-nav .nav-list{ display:flex; flex-direction:column; gap:8px; padding-bottom: calc(env(safe-area-inset-bottom, 18px) + 12px); }
-
     .mobile-nav .nav-list button{ text-align:left; padding:10px 12px; border-radius:8px; background:transparent; border:0; color:var(--text); font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
     .mobile-nav .sub-list{ margin-top:6px; display:none; flex-direction:column; gap:6px; padding-left:8px; }
     .mobile-nav .sub-list a{ padding:8px 10px; border-radius:8px; display:block; color:var(--muted); text-decoration:none; font-weight:500; }
 
-    .mobile-nav .nav-list button.active, .mobile-nav .nav-list a.active{ background: rgba(255,255,255,0.12); color:var(--text) }
-
-    /* HERO with background image + subtle pattern overlay */
-    .hero {
-      position:relative;
-      border-radius:12px;
-      overflow:hidden;
-      min-height:320px;
-      display:flex;
-      align-items:center;
-      color:var(--text);
-      margin-bottom:8px;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(180deg, rgba(4,10,18,0.35), rgba(4,10,18,0.45)),
-        url("https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=0f3b6f3b9f6b8f9b8a1f2c3d4e5f6a7b");
-      background-size:cover;
-      background-position:center;
-      z-index:0;
-      filter:contrast(1.02) saturate(1.05);
-    }
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%),
-        linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%);
-      background-size: 24px 24px;
-      background-position: 0 0, 12px 12px;
-      mix-blend-mode: overlay;
-      z-index:1;
-      pointer-events:none;
-      opacity:0.6;
-    }
+    /* Hero */
+    .hero { position:relative; border-radius:12px; overflow:hidden; min-height:320px; display:flex; align-items:center; color:var(--text); margin-bottom:8px; }
+    .hero::before{ content:""; position:absolute; inset:0; background-image: linear-gradient(180deg, rgba(4,10,18,0.35), rgba(4,10,18,0.45)), url("https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop"); background-size:cover; background-position:center; z-index:0; filter:contrast(1.02) saturate(1.05); }
+    .hero::after{ content:""; position:absolute; inset:0; background-image: linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%), linear-gradient(45deg, rgba(255,255,255,0.02) 25%, transparent 25%, transparent 75%, rgba(255,255,255,0.02) 75%); background-size: 24px 24px; background-position: 0 0, 12px 12px; mix-blend-mode: overlay; z-index:1; pointer-events:none; opacity:0.6; }
     .hero .hero-inner{ position:relative; z-index:2; width:100%; padding:28px; display:flex; gap:24px; align-items:center; justify-content:space-between; }
     .hero .hero-left{ max-width:60%; }
     .hero h1{ font-size:28px; margin:0 0 12px 0; }
     .hero p{ margin:0 0 12px 0; color:var(--muted); }
-
-    /* Force hero text white regardless of theme (user request) */
     .hero, .hero * { color: #ffffff !important; }
     .hero .muted { color: rgba(255,255,255,0.85) !important; }
 
     /* Content */
     .section-container{ max-width:var(--max-width); margin:0 auto; padding:28px 20px; }
-    section{ margin-top:18px; padding:18px; border-radius:12px; background:var(--card-bg); border:1px solid var(--card-border); transition: background var(--transition), border-color var(--transition); }
+    section{ margin-top:18px; padding:18px; border-radius:12px; background:var(--card-bg); border:1px solid var(--card-border); }
     h2{ margin-top:0; }
     .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
     .card{ padding:16px; border-radius:10px; background:var(--card-bg); border:1px solid var(--card-border); }
     .muted{ color:var(--muted) }
 
-    /* Portfolio images & cards (semi-transparent gray via --card-bg) */
+    /* Portfolio & Team */
     .portfolio-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:12px; }
     .portfolio-item{ border-radius:10px; overflow:hidden; background:var(--card-bg); border:1px solid var(--card-border); display:flex; flex-direction:column; }
     .portfolio-item img{ width:100%; height:180px; object-fit:cover; display:block; }
     .portfolio-item .meta{ padding:12px; }
-
-    /* Team avatars */
     .team-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px; }
     .team-card{ display:flex; gap:12px; align-items:center; padding:12px; border-radius:10px; background:var(--card-bg); border:1px solid var(--card-border); }
     .avatar{ width:72px; height:72px; border-radius:10px; overflow:hidden; flex-shrink:0; }
     .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-    /* Forms / Inputs */
+    /* Inputs */
     input, textarea, select {
       background: var(--input-bg-dark);
       color: var(--input-text-dark);
@@ -196,11 +148,9 @@
       padding: 12px;
       border-radius: 10px;
       outline: none;
-      transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
     }
     input::placeholder, textarea::placeholder { color: var(--placeholder-dark); }
     input:focus, textarea:focus, select:focus { box-shadow: 0 6px 20px rgba(14,166,164,0.08); border-color: rgba(31,182,199,0.9); }
-
     html.light-theme input, html.light-theme textarea, html.light-theme select {
       background: var(--input-bg-light);
       color: var(--input-text-light);
@@ -231,7 +181,7 @@
       .desktop-only{ display:inline-flex }
     }
 
-    /* small helpers */
+    /* Helpers */
     .cta{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:10px 14px; border-radius:10px; border:0; cursor:pointer }
     .btn-outline{ padding:10px 14px; border-radius:10px; border:1px solid var(--card-border); color:var(--text); background:transparent; cursor:pointer; }
     .toast{ position:fixed; right:20px; bottom:20px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:12px 16px; border-radius:12px; display:none; z-index:300 }
@@ -240,7 +190,6 @@
 </head>
 <body>
   <div class="app" id="app">
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Sidebar navigasi">
       <div style="display:flex;gap:12px;align-items:center;width:100%;">
         <div class="brand-compact" id="brandCompact" title="PT. Teknologi Maju">TM</div>
@@ -284,7 +233,6 @@
       </div>
     </aside>
 
-    <!-- Main -->
     <div style="display:flex;flex-direction:column;min-height:100vh;">
       <header class="topbar">
         <div class="left">
@@ -302,7 +250,6 @@
         </div>
       </header>
 
-      <!-- Mobile nav -->
       <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true">
         <div class="overlay-click" id="mobileOverlayClick" aria-hidden="true"></div>
         <nav class="mobile-nav" id="mobileNav" aria-label="Navigasi utama">
@@ -319,7 +266,7 @@
 
           <div class="nav-section">
             <h4 style="margin:0 0 8px 0;color:var(--muted)">Menu</h4>
-            <div class="nav-list">
+            <div class="nav-list" id="mobileNavList">
               <button class="mobile-nav-btn" data-target="home">Beranda</button>
               <button class="mobile-nav-btn" data-target="services" aria-expanded="false">Layanan ▸</button>
               <div class="sub-list" data-for="services">
@@ -349,7 +296,6 @@
       </div>
 
       <main class="content" id="content">
-        <!-- HERO -->
         <div class="section-container">
           <section class="hero" id="home" aria-label="Beranda">
             <div class="hero-inner">
@@ -364,13 +310,12 @@
               </div>
 
               <div class="hero-right desktop-only" style="max-width:40%;">
-                <img src="https://images.unsplash.com/photo-1526378721800-6b2f6b9b6b6b?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b2a1f2c3d4e5f6a7b8c9d0e1f2a3b4c" alt="Ilustrasi arsitektur teknologi" style="width:100%;height:auto;border-radius:10px;box-shadow:0 18px 50px rgba(2,6,23,0.45)">
+                <img src="https://images.unsplash.com/photo-1526378721800-6b2f6b9b6b6b?q=80&w=800&auto=format&fit=crop" alt="Ilustrasi arsitektur teknologi" style="width:100%;height:auto;border-radius:10px;box-shadow:0 18px 50px rgba(2,6,23,0.45)">
               </div>
             </div>
           </section>
         </div>
 
-        <!-- SERVICES -->
         <div class="section-container">
           <section id="services" aria-label="Layanan">
             <h2>Layanan Kami</h2>
@@ -388,15 +333,14 @@
           </section>
         </div>
 
-        <!-- PORTFOLIO -->
         <div class="section-container">
           <section id="portfolio" aria-label="Portofolio">
             <h2>Portofolio & Studi Kasus</h2>
             <p class="muted">Beberapa proyek terpilih yang menunjukkan pendekatan teknis dan hasil bisnis yang nyata.</p>
 
-            <div class="portfolio-grid">
+            <div class="portfolio-grid" id="portfolioGrid">
               <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a2b3c4d5e6f7a8b9c0d" alt="RetailX dashboard">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="RetailX dashboard">
                 <div class="meta">
                   <h3>RetailX — Platform E‑Commerce</h3>
                   <p class="muted">Re-architect monolith ke microservices, event-driven order pipeline, observability. Hasil: throughput 4x, latency puncak turun 60%.</p>
@@ -404,7 +348,7 @@
               </div>
 
               <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1581091870622-3b3f9b6f6f6f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b3c4d5e6f7a8b9c0d1e" alt="SehatCare EMR">
+                <img src="https://images.unsplash.com/photo-1586773860416-3b6f9f6f6f6f?q=80&w=1200&auto=format&fit=crop" alt="SehatCare EMR">
                 <div class="meta">
                   <h3>SehatCare — Sistem Manajemen Rumah Sakit</h3>
                   <p class="muted">Implementasi EMR berbasis FHIR, secure API gateway, audit trail. Hasil: proses klinis lebih efisien dan kepatuhan meningkat.</p>
@@ -412,7 +356,7 @@
               </div>
 
               <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c4d5e6f7a8b9c0d1e2f" alt="FinAnalytics realtime">
+                <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="FinAnalytics realtime">
                 <div class="meta">
                   <h3>FinAnalytics — Platform Analitik Real-time</h3>
                   <p class="muted">Streaming pipeline, model anomali, dan dashboard operasional. Hasil: deteksi anomali 10x lebih cepat.</p>
@@ -420,7 +364,7 @@
               </div>
 
               <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4d5e6f7a8b9c0d1e2f3a" alt="SmartCity platform">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="SmartCity platform">
                 <div class="meta">
                   <h3>SmartCity — Platform Manajemen Kota Pintar</h3>
                   <p class="muted">Integrasi sensor IoT, pipeline data real-time, dan dashboard operasional untuk layanan publik. Hasil: respons insiden lebih cepat, optimasi resource, dan peningkatan layanan warga.</p>
@@ -430,7 +374,6 @@
           </section>
         </div>
 
-        <!-- TEAM -->
         <div class="section-container">
           <section id="team" aria-label="Tim">
             <h2>Tim Inti</h2>
@@ -438,7 +381,7 @@
 
             <div class="team-grid">
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=4d5e6f7a8b9c0d1e2f3a" alt="Arief Santoso"></div>
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" alt="Arief Santoso"></div>
                 <div>
                   <h3>Arief Santoso</h3>
                   <div class="muted">CEO — 20+ tahun pengalaman memimpin transformasi digital di sektor finansial dan ritel; fokus pada strategi dan kemitraan.</div>
@@ -446,7 +389,7 @@
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1545996124-1b3b6f3b6b6b?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=5e6f7a8b9c0d1e2f3a4b" alt="Rina Putri"></div>
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1545996124-1a2b3c4d5e6f?q=80&w=400&auto=format&fit=crop" alt="Rina Putri"></div>
                 <div>
                   <h3>Rina Putri</h3>
                   <div class="muted">CTO — Arsitek cloud & data platform; pengalaman membangun platform data skala enterprise dan tim engineering yang high-performing.</div>
@@ -454,7 +397,7 @@
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.0.3&s=6f7a8b9c0d1e2f3a4b5c" alt="Bayu Pratama"></div>
+                <div class="avatar"><img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop" alt="Bayu Pratama"></div>
                 <div>
                   <h3>Bayu Pratama</h3>
                   <div class="muted">Head of Delivery — Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery.</div>
@@ -464,7 +407,6 @@
           </section>
         </div>
 
-        <!-- CAREERS -->
         <div class="section-container">
           <section id="careers" aria-label="Karir">
             <h2>Karir</h2>
@@ -477,7 +419,6 @@
           </section>
         </div>
 
-        <!-- CONTACT -->
         <div class="section-container">
           <section id="contact" aria-label="Kontak">
             <h2>Kontak & Permintaan</h2>
@@ -519,7 +460,6 @@
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true" style="display:none">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -545,250 +485,251 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    // Elements
-    const app = document.getElementById('app');
-    const navItems = Array.from(document.querySelectorAll('.nav-item'));
-    const OFFSET = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64;
+    document.addEventListener('DOMContentLoaded', () => {
+      const navItems = Array.from(document.querySelectorAll('.nav-item'));
+      const OFFSET = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64;
 
-    // Mobile controls
-    const mobileToggle = document.getElementById('mobileToggle');
-    const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
-    const mobileNavClose = document.getElementById('mobileNavClose');
-    const mobileOverlayClick = document.getElementById('mobileOverlayClick');
-    const mobileNav = document.getElementById('mobileNav');
-    const mobileNavBtns = Array.from(document.querySelectorAll('.mobile-nav-btn'));
-    const mobileSubLists = Array.from(document.querySelectorAll('.sub-list'));
+      const mobileToggle = document.getElementById('mobileToggle');
+      const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+      const mobileNavClose = document.getElementById('mobileNavClose');
+      const mobileOverlayClick = document.getElementById('mobileOverlayClick');
+      const mobileNav = document.getElementById('mobileNav');
 
-    // Modal & forms
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalDialog = document.querySelector('.modal');
-    const openModalBtns = document.querySelectorAll('#openModal');
-    const closeModal = document.getElementById('closeModal');
-    const demoCancel = document.getElementById('demoCancel');
-    const demoForm = document.getElementById('demoForm');
-    const contactForm = document.getElementById('contactForm');
-    const sendBtn = document.getElementById('sendBtn');
-    const demoSubmit = document.getElementById('demoSubmit');
-    const toast = document.getElementById('toast');
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalDialog = document.querySelector('.modal');
+      const openModalBtns = document.querySelectorAll('#openModal');
+      const closeModal = document.getElementById('closeModal');
+      const demoCancel = document.getElementById('demoCancel');
+      const demoForm = document.getElementById('demoForm');
+      const contactForm = document.getElementById('contactForm');
+      const sendBtn = document.getElementById('sendBtn');
+      const demoSubmit = document.getElementById('demoSubmit');
+      const toast = document.getElementById('toast');
 
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
 
-    function setThemeIcon(isLight){
-      if(!themeIcon) return;
-      if(isLight){
-        themeIcon.innerHTML = '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>';
-      } else {
-        themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>';
+      function setThemeIcon(isLight){
+        if(!themeIcon) return;
+        if(isLight){
+          themeIcon.innerHTML = '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>';
+        } else {
+          themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>';
+        }
       }
-    }
 
-    function applyTheme(light){
-      if(light) document.documentElement.classList.add('light-theme'); else document.documentElement.classList.remove('light-theme');
-      setThemeIcon(light);
-      try{ localStorage.setItem('lightMode', light ? '1' : '0'); }catch(e){}
-    }
-    function initTheme(){
-      try{
-        const saved = localStorage.getItem('lightMode');
-        if(saved === '1'){ applyTheme(true); return; }
-        if(saved === '0'){ applyTheme(false); return; }
-      }catch(e){}
-      const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-      applyTheme(prefersLight);
-    }
-    initTheme();
+      // applyTheme: add .theme-fade to html so all transitions run in sync for 500ms,
+      // then toggle light-theme and remove .theme-fade after 500ms so subsequent changes are instant until next toggle.
+      function applyTheme(light){
+        // ensure any previous timeout cleared
+        window.clearTimeout(window.__themeFadeTimeout);
 
-    themeToggle?.addEventListener('click', () => {
-      const isLight = document.documentElement.classList.contains('light-theme');
-      applyTheme(!isLight);
-      showToast(!isLight ? 'Tema terang diaktifkan' : 'Tema gelap diaktifkan', 1200);
-    });
+        // add fade class to root to enable transitions
+        document.documentElement.classList.add('theme-fade');
 
-    // Helper: scroll to section with offset
-    function scrollToSection(id){
-      const el = document.getElementById(id);
-      if(!el) return;
-      const rect = el.getBoundingClientRect();
-      const absoluteTop = window.pageYOffset + rect.top;
-      const target = Math.max(absoluteTop - OFFSET + 8, 0);
-      window.scrollTo({ top: target, behavior: 'smooth' });
-    }
+        // small delay to ensure transition class applied before changing variables (helps cross-browser)
+        requestAnimationFrame(() => {
+          if(light) document.documentElement.classList.add('light-theme');
+          else document.documentElement.classList.remove('light-theme');
+          setThemeIcon(light);
+          try{ localStorage.setItem('lightMode', light ? '1' : '0'); }catch(e){}
+        });
 
-    // Temporary highlight logic (0.5s)
-    function triggerTemporaryHighlight(el){
-      if(!el) return;
-      el.classList.remove('temp-highlight');
-      void el.offsetWidth; // reflow to restart animation
-      el.classList.add('temp-highlight');
+        // remove fade helper after 500ms so future immediate changes (e.g., hover) are not delayed
+        window.__themeFadeTimeout = setTimeout(() => {
+          document.documentElement.classList.remove('theme-fade');
+        }, 500);
+      }
 
-      const onAnimEnd = (e) => {
-        if(e.animationName === 'highlightFade' || e.type === 'animationend'){
-          el.classList.remove('temp-highlight');
+      function initTheme(){
+        try{
+          const saved = localStorage.getItem('lightMode');
+          if(saved === '1'){ applyTheme(true); return; }
+          if(saved === '0'){ applyTheme(false); return; }
+        }catch(e){}
+        const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        applyTheme(prefersLight);
+      }
+      initTheme();
+
+      themeToggle?.addEventListener('click', () => {
+        const isLight = document.documentElement.classList.contains('light-theme');
+        applyTheme(!isLight);
+        showToast(!isLight ? 'Tema terang diaktifkan' : 'Tema gelap diaktifkan', 1000);
+      });
+
+      function scrollToSection(id){
+        const el = document.getElementById(id);
+        if(!el) return;
+        const rect = el.getBoundingClientRect();
+        const absoluteTop = window.pageYOffset + rect.top;
+        const target = Math.max(absoluteTop - OFFSET + 8, 0);
+        window.scrollTo({ top: target, behavior: 'smooth' });
+      }
+
+      function triggerTemporaryHighlight(el){
+        if(!el) return;
+        el.classList.remove('temp-highlight');
+        void el.offsetWidth;
+        el.classList.add('temp-highlight');
+        const onAnimEnd = (e) => {
+          if(e.animationName === 'highlightFade' || e.type === 'animationend'){
+            el.classList.remove('temp-highlight');
+            el.removeEventListener('animationend', onAnimEnd);
+          }
+        };
+        el.addEventListener('animationend', onAnimEnd);
+        setTimeout(()=> {
+          if(el.classList.contains('temp-highlight')) el.classList.remove('temp-highlight');
           el.removeEventListener('animationend', onAnimEnd);
-        }
-      };
-      el.addEventListener('animationend', onAnimEnd);
+        }, 700);
+      }
 
-      // Safety fallback: remove after 700ms
-      setTimeout(()=> {
-        if(el.classList.contains('temp-highlight')) el.classList.remove('temp-highlight');
-        el.removeEventListener('animationend', onAnimEnd);
-      }, 700);
-    }
-
-    // Attach click handlers to nav items
-    navItems.forEach(item => {
-      item.addEventListener('click', (e) => {
-        const target = item.getAttribute('data-target');
-        if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
-        else scrollToSection(target);
-        triggerTemporaryHighlight(item);
-        if(window.innerWidth <= 720) closeMobileNav();
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const target = item.getAttribute('data-target');
+          if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
+          else scrollToSection(target);
+          triggerTemporaryHighlight(item);
+          if(window.innerWidth <= 720) closeMobileNav();
+        });
+        item.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+        });
       });
-      item.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
-      });
-    });
 
-    // Mobile nav open/close (full-height, lock body scroll)
-    function openMobileNav(){
-      mobileNavBackdrop.classList.add('open');
-      mobileNavBackdrop.setAttribute('aria-hidden','false');
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-      // focus first interactive element inside mobile nav
-      setTimeout(()=> mobileNav.querySelector('button, a, input')?.focus(), 160);
-    }
-    function closeMobileNav(){
-      mobileNavBackdrop.classList.remove('open');
-      mobileNavBackdrop.setAttribute('aria-hidden','true');
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-      // return focus to mobile toggle
-      setTimeout(()=> mobileToggle?.focus(), 120);
-    }
-
-    mobileToggle?.addEventListener('click', openMobileNav);
-    mobileNavClose?.addEventListener('click', closeMobileNav);
-    mobileOverlayClick?.addEventListener('click', closeMobileNav);
-    mobileNavBackdrop?.addEventListener('click', (e) => {
-      if(e.target === mobileNavBackdrop || e.target === mobileOverlayClick) closeMobileNav();
-    });
-
-    // Mobile nav expand/click
-    mobileNavBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-target');
-        const sub = document.querySelector(`.sub-list[data-for="${target}"]`);
-        if(sub){
-          const open = sub.style.display === 'flex';
-          mobileSubLists.forEach(s => { if(s !== sub) s.style.display = 'none'; });
-          document.querySelectorAll('.mobile-nav-btn').forEach(b => { if(b !== btn) b.setAttribute('aria-expanded','false'); });
-          if(open){ sub.style.display = 'none'; btn.setAttribute('aria-expanded','false'); } else { sub.style.display = 'flex'; btn.setAttribute('aria-expanded','true'); }
-          return;
-        }
-        if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' }); else scrollToSection(target);
-        closeMobileNav();
-      });
-    });
-
-    // Sub-list links
-    document.querySelectorAll('.mobile-nav .sub-list a').forEach(a => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        const t = a.getAttribute('data-target');
-        if(t === 'home') window.scrollTo({ top:0, behavior:'smooth' }); else scrollToSection(t);
-        closeMobileNav();
-      });
-    });
-
-    // Modal open/close
-    function openModal(){
-      if(modalBackdrop && modalDialog){
-        modalBackdrop.style.display = 'flex';
-        modalDialog.style.display = 'block';
-        modalBackdrop.classList.add('open');
-        modalBackdrop.setAttribute('aria-hidden','false');
+      function openMobileNav(){
+        mobileNavBackdrop.classList.add('open');
+        mobileNavBackdrop.setAttribute('aria-hidden','false');
+        document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
-        setTimeout(()=> document.getElementById('demoName')?.focus(), 120);
+        setTimeout(()=> mobileNav.querySelector('button, a, input')?.focus(), 160);
       }
-    }
-    openModalBtns.forEach(b => { if(b) b.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
-    function closeModalFn(){ if(modalBackdrop && modalDialog){ modalBackdrop.classList.remove('open'); modalBackdrop.style.display = 'none'; modalDialog.style.display = 'none'; modalBackdrop.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
-    if(closeModal) closeModal.addEventListener('click', closeModalFn);
-    if(demoCancel) demoCancel.addEventListener('click', closeModalFn);
-    modalBackdrop?.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModalFn(); });
-
-    // Forms simulation
-    if(contactForm){
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        sendBtn.disabled = true;
-        sendBtn.textContent = 'Mengirim...';
-        setTimeout(() => {
-          sendBtn.disabled = false;
-          sendBtn.textContent = 'Kirim Pesan';
-          contactForm.reset();
-          showToast('Pesan terkirim. Tim kami akan menghubungi Anda.');
-        }, 1200);
-      });
-    }
-    if(demoForm){
-      demoForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        demoSubmit.disabled = true;
-        demoSubmit.textContent = 'Mengirim...';
-        setTimeout(() => {
-          demoSubmit.disabled = false;
-          demoSubmit.textContent = 'Kirim Request';
-          demoForm.reset();
-          closeModalFn();
-          showToast('Request demo diterima. Kami akan menghubungi Anda.');
-        }, 1200);
-      });
-    }
-
-    // Toast helper
-    function showToast(message = 'Tindakan berhasil', duration = 3000){
-      toast.textContent = message;
-      toast.classList.add('show');
-      setTimeout(()=> toast.classList.remove('show'), duration);
-    }
-
-    // Accessibility: prevent text selection on icons
-    document.querySelectorAll('.nav-item, .hamburger-btn, .toggle-sidebar, .theme-btn').forEach(el => el.addEventListener('mousedown', e => e.preventDefault()));
-
-    // Small ripple for CTA buttons
-    document.querySelectorAll('.ripple').forEach(btn=>{
-      btn.addEventListener('click', function(e){
-        const rect = this.getBoundingClientRect();
-        const circle = document.createElement('span');
-        const size = Math.max(rect.width, rect.height) * 1.6;
-        circle.style.width = circle.style.height = size + 'px';
-        circle.style.position = 'absolute';
-        circle.style.left = (e.clientX - rect.left - size/2) + 'px';
-        circle.style.top = (e.clientY - rect.top - size/2) + 'px';
-        circle.style.background = 'rgba(255,255,255,0.06)';
-        circle.style.borderRadius = '50%';
-        circle.style.transform = 'scale(0)';
-        circle.style.opacity = '1';
-        circle.style.pointerEvents = 'none';
-        circle.style.transition = 'transform 600ms ease, opacity 400ms ease';
-        this.style.position = 'relative';
-        this.appendChild(circle);
-        requestAnimationFrame(()=>{ circle.style.transform='scale(1)'; circle.style.opacity='0'; });
-        setTimeout(()=> circle.remove(), 700);
-      });
-    });
-
-    // Keyboard: Escape closes mobile nav and modal
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape'){
-        if(modalBackdrop && modalBackdrop.classList.contains('open')) closeModalFn();
-        if(mobileNavBackdrop && mobileNavBackdrop.classList.contains('open')) closeMobileNav();
+      function closeMobileNav(){
+        mobileNavBackdrop.classList.remove('open');
+        mobileNavBackdrop.setAttribute('aria-hidden','true');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        setTimeout(()=> mobileToggle?.focus(), 120);
       }
+
+      mobileToggle?.addEventListener('click', openMobileNav);
+      mobileNavClose?.addEventListener('click', closeMobileNav);
+      mobileOverlayClick?.addEventListener('click', closeMobileNav);
+      mobileNavBackdrop?.addEventListener('click', (e) => {
+        if(e.target === mobileNavBackdrop || e.target === mobileOverlayClick) closeMobileNav();
+      });
+
+      mobileNav.addEventListener('click', (e) => {
+        const btn = e.target.closest('.mobile-nav-btn');
+        if(btn){
+          const target = btn.getAttribute('data-target');
+          const sub = mobileNav.querySelector(`.sub-list[data-for="${target}"]`);
+          if(sub){
+            const isOpen = sub.style.display === 'flex';
+            mobileNav.querySelectorAll('.sub-list').forEach(s => { if(s !== sub) s.style.display = 'none'; });
+            mobileNav.querySelectorAll('.mobile-nav-btn').forEach(b => { if(b !== btn) b.setAttribute('aria-expanded','false'); });
+            if(isOpen){ sub.style.display = 'none'; btn.setAttribute('aria-expanded','false'); } else { sub.style.display = 'flex'; btn.setAttribute('aria-expanded','true'); }
+            return;
+          }
+          if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' }); else scrollToSection(target);
+          closeMobileNav();
+        }
+        const a = e.target.closest('.sub-list a');
+        if(a){
+          e.preventDefault();
+          const t = a.getAttribute('data-target');
+          if(t === 'home') window.scrollTo({ top:0, behavior:'smooth' }); else scrollToSection(t);
+          closeMobileNav();
+        }
+      });
+
+      function openModal(){
+        if(modalBackdrop && modalDialog){
+          modalBackdrop.style.display = 'flex';
+          modalDialog.style.display = 'block';
+          modalBackdrop.classList.add('open');
+          modalBackdrop.setAttribute('aria-hidden','false');
+          document.body.style.overflow = 'hidden';
+          setTimeout(()=> document.getElementById('demoName')?.focus(), 120);
+        }
+      }
+      openModalBtns.forEach(b => { if(b) b.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
+      function closeModalFn(){ if(modalBackdrop && modalDialog){ modalBackdrop.classList.remove('open'); modalBackdrop.style.display = 'none'; modalDialog.style.display = 'none'; modalBackdrop.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
+      if(closeModal) closeModal.addEventListener('click', closeModalFn);
+      if(demoCancel) demoCancel.addEventListener('click', closeModalFn);
+      modalBackdrop?.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModalFn(); });
+
+      if(contactForm){
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          sendBtn.disabled = true;
+          sendBtn.textContent = 'Mengirim...';
+          setTimeout(() => {
+            sendBtn.disabled = false;
+            sendBtn.textContent = 'Kirim Pesan';
+            contactForm.reset();
+            showToast('Pesan terkirim. Tim kami akan menghubungi Anda.');
+          }, 1200);
+        });
+      }
+      if(demoForm){
+        demoForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          demoSubmit.disabled = true;
+          demoSubmit.textContent = 'Mengirim...';
+          setTimeout(() => {
+            demoSubmit.disabled = false;
+            demoSubmit.textContent = 'Kirim Request';
+            demoForm.reset();
+            closeModalFn();
+            showToast('Request demo diterima. Kami akan menghubungi Anda.');
+          }, 1200);
+        });
+      }
+
+      function showToast(message = 'Tindakan berhasil', duration = 3000){
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(()=> toast.classList.remove('show'), duration);
+      }
+
+      document.querySelectorAll('.nav-item, .hamburger-btn, .toggle-sidebar, .theme-btn').forEach(el => el.addEventListener('mousedown', e => e.preventDefault()));
+
+      document.querySelectorAll('.ripple').forEach(btn=>{
+        btn.addEventListener('click', function(e){
+          const rect = this.getBoundingClientRect();
+          const circle = document.createElement('span');
+          const size = Math.max(rect.width, rect.height) * 1.6;
+          circle.style.width = circle.style.height = size + 'px';
+          circle.style.position = 'absolute';
+          circle.style.left = (e.clientX - rect.left - size/2) + 'px';
+          circle.style.top = (e.clientY - rect.top - size/2) + 'px';
+          circle.style.background = 'rgba(255,255,255,0.06)';
+          circle.style.borderRadius = '50%';
+          circle.style.transform = 'scale(0)';
+          circle.style.opacity = '1';
+          circle.style.pointerEvents = 'none';
+          circle.style.transition = 'transform 600ms ease, opacity 400ms ease';
+          this.style.position = 'relative';
+          this.appendChild(circle);
+          requestAnimationFrame(()=>{ circle.style.transform='scale(1)'; circle.style.opacity='0'; });
+          setTimeout(()=> circle.remove(), 700);
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape'){
+          if(modalBackdrop && modalBackdrop.classList.contains('open')) closeModalFn();
+          if(mobileNavBackdrop && mobileNavBackdrop.classList.contains('open')) closeMobileNav();
+        }
+      });
+
+      document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('error', () => {
+          img.src = 'https://via.placeholder.com/1200x800.png?text=Image+not+available';
+        });
+      });
     });
   </script>
 </body>
