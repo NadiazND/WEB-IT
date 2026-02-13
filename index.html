@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PT. Teknologi Maju — Tema Fade 0.5s</title>
+  <title>PT. Teknologi Maju — Final (Konten Berkualitas)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
@@ -44,15 +44,22 @@
       --card-border: rgba(0,0,0,0.06);
     }
 
-    /* Base */
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),var(--panel));color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.45;scroll-behavior:smooth}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.45;
+      scroll-behavior:smooth;
+      background: linear-gradient(180deg,var(--bg),var(--panel));
+      color:var(--text);
+    }
     a{color:inherit;text-decoration:none}
 
-    /* THEME FADE: when html has .theme-fade, apply 0.5s fade to key properties */
-    html.theme-fade,
-    html.theme-fade * {
-      transition: color 500ms ease, background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease, fill 500ms ease, stroke 500ms ease, background 500ms ease;
+    /* Theme fade helper (0.5s) */
+    html.theme-fade, html.theme-fade * {
+      transition: color 500ms ease, background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease, background 500ms ease;
     }
 
     /* Layout */
@@ -60,30 +67,17 @@
     .app.sidebar-open{ grid-template-columns: var(--sidebar-w-open) 1fr; }
 
     /* Sidebar */
-    .sidebar{ position:sticky; top:0; height:100vh; padding:18px 12px; background:var(--panel); border-right:1px solid var(--card-border); display:flex; flex-direction:column; gap:var(--gap); align-items:center; z-index:90; transition: transform var(--transition); }
+    .sidebar{ position:sticky; top:0; height:100vh; padding:18px 12px; background:var(--panel); border-right:1px solid var(--card-border); display:flex; flex-direction:column; gap:var(--gap); align-items:center; z-index:90; }
     .brand-compact{ width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#042028;font-weight:800;cursor:pointer }
 
-    .nav{ display:flex; flex-direction:column; gap:10px; width:100%; align-items:center; position:relative; }
-    .nav-item{ display:flex; gap:12px; align-items:center; width:100%; padding:10px 12px; border-radius:10px; color:var(--muted); font-weight:600; cursor:pointer; transition: all 180ms; }
-    .nav-item .icon{ width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px; transition: all 180ms; }
+    .nav{ display:flex; flex-direction:column; gap:10px; width:100%; align-items:center; }
+    .nav-item{ display:flex; gap:12px; align-items:center; width:100%; padding:10px 12px; border-radius:10px; color:var(--muted); font-weight:600; cursor:pointer; }
+    .nav-item .icon{ width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px; }
     .nav-item .label{ display:none; }
     .app.sidebar-open .nav-item .label{ display:inline-block; }
 
-    .nav-item.temp-highlight{
-      background: rgba(255,255,255,0.14);
-      color: var(--text);
-      animation: highlightFade 0.5s forwards;
-    }
-    .nav-item.temp-highlight .icon{
-      background: rgba(255,255,255,0.95);
-      color:#042028;
-      box-shadow:0 8px 24px rgba(2,6,23,0.25);
-    }
-    @keyframes highlightFade{
-      0% { opacity: 1; }
-      70% { opacity: 1; }
-      100% { opacity: 0; background: transparent; color: var(--muted); }
-    }
+    .nav-item.temp-highlight{ background: rgba(255,255,255,0.14); color: var(--text); animation: highlightFade 0.5s forwards; }
+    @keyframes highlightFade{ 0%{opacity:1} 70%{opacity:1} 100%{opacity:0;background:transparent;color:var(--muted)} }
 
     .sidebar-footer{ margin-top:auto; width:100%; display:flex; gap:8px; align-items:center; justify-content:center; }
     .toggle-sidebar{ width:44px;height:44px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--muted);cursor:pointer }
@@ -98,16 +92,10 @@
     /* Mobile nav */
     .mobile-nav-backdrop{ position:fixed; inset:0; display:none; align-items:flex-start; justify-content:flex-start; z-index:200; background: rgba(0,0,0,0.28); }
     .mobile-nav-backdrop.open{ display:flex; }
-    .mobile-nav{
-      position:fixed; left:0; top:0; bottom:0; width: min(92%, 360px); height:100vh; max-height:100vh;
-      padding: 18px 18px calc(env(safe-area-inset-bottom, 18px) + 18px) 18px;
-      background:var(--panel); box-shadow: 30px 0 60px rgba(2,6,23,0.6);
-      transform: translateX(-110%); transition: transform 320ms cubic-bezier(.2,.9,.3,1); z-index:210; overflow:auto; -webkit-overflow-scrolling: touch;
-    }
+    .mobile-nav{ position:fixed; left:0; top:0; bottom:0; width: min(92%, 360px); height:100vh; max-height:100vh; padding: 18px; background:var(--panel); box-shadow: 30px 0 60px rgba(2,6,23,0.6); transform: translateX(-110%); transition: transform 320ms cubic-bezier(.2,.9,.3,1); z-index:210; overflow:auto; -webkit-overflow-scrolling: touch; }
     .mobile-nav-backdrop.open .mobile-nav{ transform: translateX(0); }
-    .mobile-nav .mobile-close-wrap{ position:sticky; top:0; z-index:220; background:transparent; padding-bottom:8px; }
     .mobile-nav .nav-list{ display:flex; flex-direction:column; gap:8px; padding-bottom: calc(env(safe-area-inset-bottom, 18px) + 12px); }
-    .mobile-nav .nav-list button{ text-align:left; padding:10px 12px; border-radius:8px; background:transparent; border:0; color:var(--text); font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; }
+    .mobile-nav .nav-list button, .mobile-nav .nav-list a{ text-align:left; padding:10px 12px; border-radius:8px; background:transparent; border:0; color:var(--text); font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; width:100%; }
     .mobile-nav .sub-list{ margin-top:6px; display:none; flex-direction:column; gap:6px; padding-left:8px; }
     .mobile-nav .sub-list a{ padding:8px 10px; border-radius:8px; display:block; color:var(--muted); text-decoration:none; font-weight:500; }
 
@@ -181,7 +169,7 @@
       .desktop-only{ display:inline-flex }
     }
 
-    /* Helpers */
+    /* small helpers */
     .cta{ background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:10px 14px; border-radius:10px; border:0; cursor:pointer }
     .btn-outline{ padding:10px 14px; border-radius:10px; border:1px solid var(--card-border); color:var(--text); background:transparent; cursor:pointer; }
     .toast{ position:fixed; right:20px; bottom:20px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#042028; padding:12px 16px; border-radius:12px; display:none; z-index:300 }
@@ -190,6 +178,7 @@
 </head>
 <body>
   <div class="app" id="app">
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Sidebar navigasi">
       <div style="display:flex;gap:12px;align-items:center;width:100%;">
         <div class="brand-compact" id="brandCompact" title="PT. Teknologi Maju">TM</div>
@@ -233,6 +222,7 @@
       </div>
     </aside>
 
+    <!-- Main -->
     <div style="display:flex;flex-direction:column;min-height:100vh;">
       <header class="topbar">
         <div class="left">
@@ -250,6 +240,7 @@
         </div>
       </header>
 
+      <!-- Mobile nav -->
       <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true">
         <div class="overlay-click" id="mobileOverlayClick" aria-hidden="true"></div>
         <nav class="mobile-nav" id="mobileNav" aria-label="Navigasi utama">
@@ -267,25 +258,26 @@
           <div class="nav-section">
             <h4 style="margin:0 0 8px 0;color:var(--muted)">Menu</h4>
             <div class="nav-list" id="mobileNavList">
-              <button class="mobile-nav-btn" data-target="home">Beranda</button>
-              <button class="mobile-nav-btn" data-target="services" aria-expanded="false">Layanan ▸</button>
-              <div class="sub-list" data-for="services">
+              <button class="mobile-nav-btn" data-target="home" type="button">Beranda</button>
+
+              <button class="mobile-nav-btn" data-target="services" aria-expanded="false" type="button">Layanan ▸</button>
+              <div class="sub-list" data-for="services" aria-hidden="true">
                 <a href="#services" data-target="services">Pengembangan Perangkat Lunak</a>
                 <a href="#services" data-target="services">Cloud & Infrastruktur</a>
                 <a href="#services" data-target="services">Data & AI</a>
               </div>
 
-              <button class="mobile-nav-btn" data-target="portfolio" aria-expanded="false">Portofolio ▸</button>
-              <div class="sub-list" data-for="portfolio">
+              <button class="mobile-nav-btn" data-target="portfolio" aria-expanded="false" type="button">Portofolio ▸</button>
+              <div class="sub-list" data-for="portfolio" aria-hidden="true">
                 <a href="#portfolio" data-target="portfolio">RetailX</a>
                 <a href="#portfolio" data-target="portfolio">SehatCare</a>
                 <a href="#portfolio" data-target="portfolio">FinAnalytics</a>
                 <a href="#portfolio" data-target="portfolio">SmartCity</a>
               </div>
 
-              <button class="mobile-nav-btn" data-target="team">Tim</button>
-              <button class="mobile-nav-btn" data-target="careers">Karir</button>
-              <button class="mobile-nav-btn" data-target="contact">Kontak</button>
+              <button class="mobile-nav-btn" data-target="team" type="button">Tim</button>
+              <button class="mobile-nav-btn" data-target="careers" type="button">Karir</button>
+              <button class="mobile-nav-btn" data-target="contact" type="button">Kontak</button>
             </div>
           </div>
 
@@ -296,62 +288,90 @@
       </div>
 
       <main class="content" id="content">
+        <!-- HERO -->
         <div class="section-container">
           <section class="hero" id="home" aria-label="Beranda">
             <div class="hero-inner">
               <div class="hero-left">
                 <span style="display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(31,182,199,0.08);color:var(--accent);font-weight:700;font-size:13px">Enterprise IT</span>
                 <h1>Transformasi Digital yang Terukur dan Berkelanjutan</h1>
-                <p>PT. Teknologi Maju membantu organisasi mengeksekusi transformasi teknologi yang selaras dengan tujuan bisnis: meningkatkan efisiensi operasional, mempercepat time-to-market, dan menjaga keamanan serta kepatuhan.</p>
+                <p>PT. Teknologi Maju membantu organisasi merancang dan mengeksekusi transformasi teknologi yang selaras dengan tujuan bisnis. Kami menggabungkan strategi produk, arsitektur cloud, dan praktik engineering untuk menghasilkan outcome terukur: pengurangan biaya operasional, percepatan time-to-market, dan peningkatan keamanan serta kepatuhan.</p>
                 <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
                   <button class="cta ripple" id="consultBtn">Konsultasi Gratis</button>
                   <button class="btn-outline ripple" id="learnBtn">Pelajari Metodologi</button>
                 </div>
-              </div>
-
-              <div class="hero-right desktop-only" style="max-width:40%;">
-                <img src="https://images.unsplash.com/photo-1526378721800-6b2f6b9b6b6b?q=80&w=800&auto=format&fit=crop" alt="Ilustrasi arsitektur teknologi" style="width:100%;height:auto;border-radius:10px;box-shadow:0 18px 50px rgba(2,6,23,0.45)">
+                <ul style="margin-top:12px;color:var(--muted);padding-left:18px">
+                  <li>Assessment arsitektur & roadmap transformasi</li>
+                  <li>Proof of Value (PoV) dan pilot delivery</li>
+                  <li>Operasionalisasi platform dan transfer knowledge</li>
+                </ul>
               </div>
             </div>
           </section>
         </div>
 
+        <!-- SERVICES -->
         <div class="section-container">
           <section id="services" aria-label="Layanan">
             <h2>Layanan Kami</h2>
-            <p class="muted">Layanan kami dirancang untuk menghasilkan outcome bisnis terukur: pengurangan biaya, peningkatan kecepatan inovasi, dan penguatan keamanan serta kepatuhan.</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px">
-              <div>
-                <h3>Pengembangan Perangkat Lunak</h3>
-                <p class="muted">Pendekatan product-led: discovery, prototyping, iterative delivery. Fokus pada arsitektur modular, observability, dan automated testing.</p>
+            <p class="muted">Pendekatan kami berfokus pada outcome bisnis. Setiap layanan dirancang untuk menghasilkan metrik yang dapat diukur dan berkelanjutan.</p>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px">
+              <div class="card">
+                <h3>Strategi & Roadmap Teknologi</h3>
+                <p class="muted">Workshop strategi, assessment arsitektur, dan pembuatan roadmap 12–24 bulan yang memprioritaskan value dan mitigasi risiko.</p>
+                <ul class="muted" style="padding-left:18px;margin-top:8px">
+                  <li>Analisis gap teknologi dan proses</li>
+                  <li>Business capability mapping</li>
+                  <li>Prioritasi inisiatif berdasar ROI dan risiko</li>
+                </ul>
               </div>
-              <div>
-                <h3>Cloud & Infrastruktur</h3>
-                <p class="muted">Desain landing zone, IaC, optimasi biaya, dan penerapan security baseline untuk cloud-native operations.</p>
+
+              <div class="card">
+                <h3>Engineering & Delivery</h3>
+                <p class="muted">Tim cross-functional untuk delivery end-to-end: product discovery, CI/CD, automated testing, dan observability.</p>
+                <ul class="muted" style="padding-left:18px;margin-top:8px">
+                  <li>Microservices & event-driven architecture</li>
+                  <li>Quality engineering dan SRE practices</li>
+                  <li>Delivery cadence dan release automation</li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <h3>Cloud, Data & Keamanan</h3>
+                <p class="muted">Desain landing zone, data platform, pipeline real-time, serta security baseline dan compliance untuk industri terregulasi.</p>
+                <ul class="muted" style="padding-left:18px;margin-top:8px">
+                  <li>Infrastructure as Code (Terraform)</li>
+                  <li>Streaming, data lake, dan model deployment</li>
+                  <li>Security by design dan audit readiness</li>
+                </ul>
               </div>
             </div>
           </section>
         </div>
 
+        <!-- PORTFOLIO -->
         <div class="section-container">
           <section id="portfolio" aria-label="Portofolio">
             <h2>Portofolio & Studi Kasus</h2>
-            <p class="muted">Beberapa proyek terpilih yang menunjukkan pendekatan teknis dan hasil bisnis yang nyata.</p>
+            <p class="muted">Contoh proyek yang menunjukkan pendekatan teknis, keputusan arsitektural, dan hasil bisnis nyata.</p>
 
             <div class="portfolio-grid" id="portfolioGrid">
               <div class="portfolio-item">
                 <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop" alt="RetailX dashboard">
                 <div class="meta">
                   <h3>RetailX — Platform E‑Commerce</h3>
-                  <p class="muted">Re-architect monolith ke microservices, event-driven order pipeline, observability. Hasil: throughput 4x, latency puncak turun 60%.</p>
+                  <p class="muted">Masalah: monolith tidak skalabel saat puncak kampanye. Solusi: re-architect ke microservices, event-driven order pipeline, dan autoscaling. Hasil: throughput 4x, puncak latency turun 60%, dan cost per order turun 28%.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> Kubernetes, Kafka, PostgreSQL, Prometheus, Grafana.</p>
                 </div>
               </div>
 
               <div class="portfolio-item">
-                <img src="https://images.unsplash.com/photo-1586773860416-3b6f9f6f6f6f?q=80&w=1200&auto=format&fit=crop" alt="SehatCare EMR">
+                <img src="https://media.istockphoto.com/id/837561666/id/vektor/orang-dan-kesehatan.jpg?s=1024x1024&w=0&k=20&c=27nwn-UKQ-ZgHw1OJmai1pyUcGXnL_a9quJzOi84OoY=" alt="SehatCare EMR">
                 <div class="meta">
                   <h3>SehatCare — Sistem Manajemen Rumah Sakit</h3>
-                  <p class="muted">Implementasi EMR berbasis FHIR, secure API gateway, audit trail. Hasil: proses klinis lebih efisien dan kepatuhan meningkat.</p>
+                  <p class="muted">Masalah: proses klinis terfragmentasi dan kepatuhan sulit diaudit. Solusi: implementasi EMR berbasis FHIR, secure API gateway, dan audit trail terpusat. Hasil: waktu proses klinis berkurang 35%, kepatuhan audit meningkat, dan interoperabilitas antar fasilitas terwujud.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> FHIR, OAuth2, ELK stack, PostgreSQL.</p>
                 </div>
               </div>
 
@@ -359,7 +379,8 @@
                 <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="FinAnalytics realtime">
                 <div class="meta">
                   <h3>FinAnalytics — Platform Analitik Real-time</h3>
-                  <p class="muted">Streaming pipeline, model anomali, dan dashboard operasional. Hasil: deteksi anomali 10x lebih cepat.</p>
+                  <p class="muted">Masalah: deteksi anomali transaksi lambat. Solusi: streaming pipeline, feature store, dan model anomali terintegrasi ke dashboard operasional. Hasil: deteksi anomali 10x lebih cepat dan false positive menurun 40%.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> Kafka, Flink, Redis, MLflow, Superset.</p>
                 </div>
               </div>
 
@@ -367,68 +388,88 @@
                 <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="SmartCity platform">
                 <div class="meta">
                   <h3>SmartCity — Platform Manajemen Kota Pintar</h3>
-                  <p class="muted">Integrasi sensor IoT, pipeline data real-time, dan dashboard operasional untuk layanan publik. Hasil: respons insiden lebih cepat, optimasi resource, dan peningkatan layanan warga.</p>
+                  <p class="muted">Masalah: data sensor tersebar dan sulit dimanfaatkan. Solusi: integrasi IoT, pipeline real-time, dan dashboard layanan publik. Hasil: respons insiden lebih cepat, optimasi resource, dan peningkatan kepuasan warga.</p>
+                  <p class="muted" style="margin-top:8px"><strong>Teknologi:</strong> MQTT, TimescaleDB, Grafana, Kubernetes.</p>
                 </div>
               </div>
             </div>
           </section>
         </div>
 
+        <!-- TEAM -->
         <div class="section-container">
           <section id="team" aria-label="Tim">
             <h2>Tim Inti</h2>
-            <p class="muted">Tim lintas-disiplin yang menggabungkan pengalaman bisnis dan teknis untuk deliver hasil nyata.</p>
+            <p class="muted">Tim lintas-disiplin yang menggabungkan pengalaman bisnis, arsitektur, data, dan delivery untuk menghasilkan hasil nyata.</p>
 
             <div class="team-grid">
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" alt="Arief Santoso"></div>
+                <div class="avatar"><img src="https://tshirtbar.id/wp-content/uploads/2022/09/outfit-kantor-pria.jpg" alt="Arief Santoso"></div>
                 <div>
-                  <h3>Arief Santoso</h3>
-                  <div class="muted">CEO — 20+ tahun pengalaman memimpin transformasi digital di sektor finansial dan ritel; fokus pada strategi dan kemitraan.</div>
+                  <h3>Arief Santoso — CEO</h3>
+                  <div class="muted">20+ tahun memimpin transformasi digital di sektor finansial dan ritel. Keahlian: strategi bisnis, kemitraan, dan go-to-market.</div>
                 </div>
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1545996124-1a2b3c4d5e6f?q=80&w=400&auto=format&fit=crop" alt="Rina Putri"></div>
+                <div class="avatar"><img src="https://tse1.mm.bing.net/th/id/OIP.iFlx8-4iEGgNk3wuS2hVjAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Rina Putri"></div>
                 <div>
-                  <h3>Rina Putri</h3>
-                  <div class="muted">CTO — Arsitek cloud & data platform; pengalaman membangun platform data skala enterprise dan tim engineering yang high-performing.</div>
+                  <h3>Rina Putri — CTO</h3>
+                  <div class="muted">Arsitek cloud & data platform. Pengalaman membangun platform data skala enterprise, governance, dan tim engineering high-performing.</div>
                 </div>
               </div>
 
               <div class="team-card">
-                <div class="avatar"><img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop" alt="Bayu Pratama"></div>
+                <div class="avatar"><img src="https://tse2.mm.bing.net/th/id/OIP.fpwtKDB18cxJMdfNxmfQkgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Bayu Pratama"></div>
                 <div>
-                  <h3>Bayu Pratama</h3>
-                  <div class="muted">Head of Delivery — Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery.</div>
+                  <h3>Bayu Pratama — Head of Delivery</h3>
+                  <div class="muted">Spesialis delivery excellence, manajemen risiko proyek, dan continuous improvement pada proses delivery dan operasional.</div>
                 </div>
               </div>
             </div>
           </section>
         </div>
 
+        <!-- CAREERS -->
         <div class="section-container">
           <section id="careers" aria-label="Karir">
             <h2>Karir</h2>
             <p class="muted">Kami mencari talenta yang berorientasi solusi, memiliki ownership, dan ingin berkembang dalam lingkungan engineering yang menantang.</p>
+
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px">
-              <div class="card"><h3>Software Engineer (Backend)</h3><p class="muted">3+ tahun, microservices, testing, CI/CD.</p></div>
-              <div class="card"><h3>Data Engineer</h3><p class="muted">Spark, Kafka, dbt; fokus data quality.</p></div>
-              <div class="card"><h3>DevOps / SRE</h3><p class="muted">Terraform, Prometheus, K8s; incident response.</p></div>
+              <div class="card">
+                <h3>Software Engineer (Backend)</h3>
+                <p class="muted">Tanggung jawab: desain API, microservices, dan optimasi performa. Kualifikasi: 3+ tahun, pengalaman dengan K8s, CI/CD, dan testing otomatis.</p>
+                <p class="muted"><strong>Benefit:</strong> remote-first, learning budget, dan mentorship.</p>
+              </div>
+
+              <div class="card">
+                <h3>Data Engineer</h3>
+                <p class="muted">Tanggung jawab: pipeline ETL/ELT, streaming, dan data quality. Kualifikasi: pengalaman Spark/Kafka, data modeling, dan observability.</p>
+                <p class="muted"><strong>Benefit:</strong> exposure ke ML ops dan proyek skala nasional.</p>
+              </div>
+
+              <div class="card">
+                <h3>DevOps / SRE</h3>
+                <p class="muted">Tanggung jawab: IaC, monitoring, incident response, dan reliability engineering. Kualifikasi: Terraform, Prometheus, K8s, dan runbooks.</p>
+                <p class="muted"><strong>Benefit:</strong> on-call rotation yang adil, career path SRE.</p>
+              </div>
             </div>
           </section>
         </div>
 
+        <!-- CONTACT -->
         <div class="section-container">
           <section id="contact" aria-label="Kontak">
             <h2>Kontak & Permintaan</h2>
             <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
               <div class="card" style="flex:1;min-width:260px">
                 <h3>Alamat Kantor</h3>
-                <p class="muted">Jalan Contoh No. 123, Jakarta Selatan</p>
+                <p class="muted">Gedung Teknologi Maju, Jl. Contoh No. 123, Jakarta Selatan</p>
                 <h3 style="margin-top:12px">Email</h3>
                 <p class="muted">sales@teknologimaju.co.id • support@teknologimaju.co.id</p>
                 <div style="margin-top:12px;color:var(--muted)"><strong>Telepon:</strong> +62 21 555 0123</div>
+                <div style="margin-top:8px;color:var(--muted)"><strong>Jam Operasional:</strong> Senin–Jumat, 09:00–18:00</div>
               </div>
 
               <div class="card" style="flex:1;min-width:260px">
@@ -444,11 +485,12 @@
                     <option value="data">Data & AI</option>
                     <option value="support">Dukungan / SLA</option>
                   </select>
-                  <textarea id="message" placeholder="Pesan singkat" rows="4" required></textarea>
+                  <textarea id="message" placeholder="Pesan singkat (tujuan, tantangan, dan timeline)" rows="4" required></textarea>
                   <div style="display:flex;gap:10px;align-items:center">
                     <button type="submit" class="cta ripple" id="sendBtn">Kirim Pesan</button>
                     <button type="button" class="btn-outline ripple" id="openModal">Request Demo</button>
                   </div>
+                  <div style="margin-top:8px;color:var(--muted);font-size:13px">Isi form dengan konteks singkat (tujuan bisnis, sistem saat ini, dan prioritas) agar kami dapat menyiapkan respons yang relevan.</div>
                 </form>
               </div>
             </div>
@@ -460,6 +502,7 @@
     </div>
   </div>
 
+  <!-- Modal -->
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true" style="display:none">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" style="display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
@@ -473,7 +516,7 @@
       <form id="demoForm" style="display:flex;flex-direction:column;gap:10px;margin-top:12px" onsubmit="return false;">
         <input type="text" id="demoName" placeholder="Nama Perusahaan / Nama Anda" required>
         <input type="email" id="demoEmail" placeholder="Email" required>
-        <textarea id="demoNote" placeholder="Catatan singkat" rows="4"></textarea>
+        <textarea id="demoNote" placeholder="Catatan singkat (tujuan demo, waktu preferensi)" rows="4"></textarea>
         <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
           <button class="cta ripple" id="demoSubmit">Kirim Request</button>
           <button type="button" class="btn-outline ripple" id="demoCancel">Batal</button>
@@ -486,14 +529,18 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const navItems = Array.from(document.querySelectorAll('.nav-item'));
       const OFFSET = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 64;
 
+      // Elements
       const mobileToggle = document.getElementById('mobileToggle');
       const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+      const mobileNav = document.getElementById('mobileNav');
       const mobileNavClose = document.getElementById('mobileNavClose');
       const mobileOverlayClick = document.getElementById('mobileOverlayClick');
-      const mobileNav = document.getElementById('mobileNav');
+
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const root = document.documentElement;
 
       const modalBackdrop = document.getElementById('modalBackdrop');
       const modalDialog = document.querySelector('.modal');
@@ -506,9 +553,7 @@
       const demoSubmit = document.getElementById('demoSubmit');
       const toast = document.getElementById('toast');
 
-      const themeToggle = document.getElementById('themeToggle');
-      const themeIcon = document.getElementById('themeIcon');
-
+      // Theme icon helper
       function setThemeIcon(isLight){
         if(!themeIcon) return;
         if(isLight){
@@ -518,27 +563,16 @@
         }
       }
 
-      // applyTheme: add .theme-fade to html so all transitions run in sync for 500ms,
-      // then toggle light-theme and remove .theme-fade after 500ms so subsequent changes are instant until next toggle.
+      // Apply theme with synchronized fade (0.5s)
       function applyTheme(light){
-        // ensure any previous timeout cleared
         window.clearTimeout(window.__themeFadeTimeout);
-
-        // add fade class to root to enable transitions
-        document.documentElement.classList.add('theme-fade');
-
-        // small delay to ensure transition class applied before changing variables (helps cross-browser)
+        root.classList.add('theme-fade');
         requestAnimationFrame(() => {
-          if(light) document.documentElement.classList.add('light-theme');
-          else document.documentElement.classList.remove('light-theme');
+          if(light) root.classList.add('light-theme'); else root.classList.remove('light-theme');
           setThemeIcon(light);
           try{ localStorage.setItem('lightMode', light ? '1' : '0'); }catch(e){}
         });
-
-        // remove fade helper after 500ms so future immediate changes (e.g., hover) are not delayed
-        window.__themeFadeTimeout = setTimeout(() => {
-          document.documentElement.classList.remove('theme-fade');
-        }, 500);
+        window.__themeFadeTimeout = setTimeout(()=> root.classList.remove('theme-fade'), 500);
       }
 
       function initTheme(){
@@ -553,11 +587,11 @@
       initTheme();
 
       themeToggle?.addEventListener('click', () => {
-        const isLight = document.documentElement.classList.contains('light-theme');
+        const isLight = root.classList.contains('light-theme');
         applyTheme(!isLight);
-        showToast(!isLight ? 'Tema terang diaktifkan' : 'Tema gelap diaktifkan', 1000);
       });
 
+      // Smooth scroll helper
       function scrollToSection(id){
         const el = document.getElementById(id);
         if(!el) return;
@@ -567,37 +601,7 @@
         window.scrollTo({ top: target, behavior: 'smooth' });
       }
 
-      function triggerTemporaryHighlight(el){
-        if(!el) return;
-        el.classList.remove('temp-highlight');
-        void el.offsetWidth;
-        el.classList.add('temp-highlight');
-        const onAnimEnd = (e) => {
-          if(e.animationName === 'highlightFade' || e.type === 'animationend'){
-            el.classList.remove('temp-highlight');
-            el.removeEventListener('animationend', onAnimEnd);
-          }
-        };
-        el.addEventListener('animationend', onAnimEnd);
-        setTimeout(()=> {
-          if(el.classList.contains('temp-highlight')) el.classList.remove('temp-highlight');
-          el.removeEventListener('animationend', onAnimEnd);
-        }, 700);
-      }
-
-      navItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const target = item.getAttribute('data-target');
-          if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
-          else scrollToSection(target);
-          triggerTemporaryHighlight(item);
-          if(window.innerWidth <= 720) closeMobileNav();
-        });
-        item.addEventListener('keydown', (e) => {
-          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
-        });
-      });
-
+      // Mobile nav open/close
       function openMobileNav(){
         mobileNavBackdrop.classList.add('open');
         mobileNavBackdrop.setAttribute('aria-hidden','false');
@@ -620,6 +624,7 @@
         if(e.target === mobileNavBackdrop || e.target === mobileOverlayClick) closeMobileNav();
       });
 
+      // Mobile nav delegation: toggle sublists or navigate
       mobileNav.addEventListener('click', (e) => {
         const btn = e.target.closest('.mobile-nav-btn');
         if(btn){
@@ -629,12 +634,15 @@
             const isOpen = sub.style.display === 'flex';
             mobileNav.querySelectorAll('.sub-list').forEach(s => { if(s !== sub) s.style.display = 'none'; });
             mobileNav.querySelectorAll('.mobile-nav-btn').forEach(b => { if(b !== btn) b.setAttribute('aria-expanded','false'); });
-            if(isOpen){ sub.style.display = 'none'; btn.setAttribute('aria-expanded','false'); } else { sub.style.display = 'flex'; btn.setAttribute('aria-expanded','true'); }
+            if(isOpen){ sub.style.display = 'none'; btn.setAttribute('aria-expanded','false'); sub.setAttribute('aria-hidden','true'); }
+            else { sub.style.display = 'flex'; btn.setAttribute('aria-expanded','true'); sub.setAttribute('aria-hidden','false'); }
             return;
           }
           if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' }); else scrollToSection(target);
           closeMobileNav();
+          return;
         }
+
         const a = e.target.closest('.sub-list a');
         if(a){
           e.preventDefault();
@@ -644,6 +652,22 @@
         }
       });
 
+      // Desktop sidebar nav: attach scroll behavior and highlight
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const target = item.getAttribute('data-target');
+          if(target === 'home') window.scrollTo({ top:0, behavior:'smooth' });
+          else scrollToSection(target);
+          item.classList.add('temp-highlight');
+          setTimeout(()=> item.classList.remove('temp-highlight'), 600);
+          if(window.innerWidth <= 720) closeMobileNav();
+        });
+        item.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+        });
+      });
+
+      // Modal open/close
       function openModal(){
         if(modalBackdrop && modalDialog){
           modalBackdrop.style.display = 'flex';
@@ -654,48 +678,48 @@
           setTimeout(()=> document.getElementById('demoName')?.focus(), 120);
         }
       }
-      openModalBtns.forEach(b => { if(b) b.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
       function closeModalFn(){ if(modalBackdrop && modalDialog){ modalBackdrop.classList.remove('open'); modalBackdrop.style.display = 'none'; modalDialog.style.display = 'none'; modalBackdrop.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; } }
+      openModalBtns.forEach(b => { if(b) b.addEventListener('click', (e) => { e.preventDefault(); openModal(); }); });
       if(closeModal) closeModal.addEventListener('click', closeModalFn);
       if(demoCancel) demoCancel.addEventListener('click', closeModalFn);
       modalBackdrop?.addEventListener('click', (e) => { if(e.target === modalBackdrop) closeModalFn(); });
 
-      if(contactForm){
-        contactForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          sendBtn.disabled = true;
-          sendBtn.textContent = 'Mengirim...';
-          setTimeout(() => {
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'Kirim Pesan';
-            contactForm.reset();
-            showToast('Pesan terkirim. Tim kami akan menghubungi Anda.');
-          }, 1200);
-        });
-      }
-      if(demoForm){
-        demoForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          demoSubmit.disabled = true;
-          demoSubmit.textContent = 'Mengirim...';
-          setTimeout(() => {
-            demoSubmit.disabled = false;
-            demoSubmit.textContent = 'Kirim Request';
-            demoForm.reset();
-            closeModalFn();
-            showToast('Request demo diterima. Kami akan menghubungi Anda.');
-          }, 1200);
-        });
-      }
+      // Forms simulation
+      contactForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Mengirim...';
+        setTimeout(() => {
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Kirim Pesan';
+          contactForm.reset();
+          showToast('Pesan terkirim. Tim kami akan menghubungi Anda.');
+        }, 1200);
+      });
+      demoForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        demoSubmit.disabled = true;
+        demoSubmit.textContent = 'Mengirim...';
+        setTimeout(() => {
+          demoSubmit.disabled = false;
+          demoSubmit.textContent = 'Kirim Request';
+          demoForm.reset();
+          closeModalFn();
+          showToast('Request demo diterima. Kami akan menghubungi Anda.');
+        }, 1200);
+      });
 
+      // Toast helper
       function showToast(message = 'Tindakan berhasil', duration = 3000){
         toast.textContent = message;
         toast.classList.add('show');
         setTimeout(()=> toast.classList.remove('show'), duration);
       }
 
+      // Accessibility: prevent text selection on icons
       document.querySelectorAll('.nav-item, .hamburger-btn, .toggle-sidebar, .theme-btn').forEach(el => el.addEventListener('mousedown', e => e.preventDefault()));
 
+      // Small ripple for CTA buttons
       document.querySelectorAll('.ripple').forEach(btn=>{
         btn.addEventListener('click', function(e){
           const rect = this.getBoundingClientRect();
@@ -718,6 +742,7 @@
         });
       });
 
+      // Keyboard: Escape closes mobile nav and modal
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape'){
           if(modalBackdrop && modalBackdrop.classList.contains('open')) closeModalFn();
@@ -725,6 +750,7 @@
         }
       });
 
+      // Image fallback
       document.querySelectorAll('img').forEach(img => {
         img.addEventListener('error', () => {
           img.src = 'https://via.placeholder.com/1200x800.png?text=Image+not+available';
